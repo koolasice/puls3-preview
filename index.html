@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PULS3 Outfitters — Premium Streetwear</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   PULS3 OUTFITTERS
+   Type: Anton (display caps) + Archivo (UI/body) + JetBrains Mono
+   Palette: light cream canvas, ink text, brand red accent
+   ============================================================ */
+:root{
+  --cream-00:#FDFBF5;
+  --cream-01:#F8F3E9;
+  --cream-02:#F1EBDD;
+  --cream-03:#E6DECB;
+  --ink:#17150F;
+  --ink-70:rgba(23,21,15,.72);
+  --ink-45:rgba(23,21,15,.46);
+  --ink-14:rgba(23,21,15,.14);
+  --ink-07:rgba(23,21,15,.07);
+  --red:#D32B1E;
+  --display:'Anton',Impact,sans-serif;
+  --sans:'Archivo',system-ui,sans-serif;
+  --mono:'JetBrains Mono',ui-monospace,monospace;
+  --pad:clamp(20px,5vw,76px);
+  --rail:#C2B59B;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{background:var(--cream-02);color:var(--ink);font-family:var(--sans);
+  -webkit-font-smoothing:antialiased;text-wrap:pretty}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+img,svg{display:block;max-width:100%}
+.d{font-family:var(--display);font-weight:400;text-transform:uppercase;letter-spacing:.005em}
+.eyebrow{font-family:var(--mono);font-size:10px;letter-spacing:.24em;
+  text-transform:uppercase;color:var(--ink-45)}
+
+/* ===== harness ===== */
+.harness{min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:0 0 76px}
+.toolbar{position:fixed;z-index:900;bottom:18px;left:50%;transform:translateX(-50%);
+  display:flex;gap:4px;align-items:center;padding:6px;background:var(--ink);
+  border-radius:999px;box-shadow:0 14px 40px rgba(23,21,15,.34)}
+.toolbar button{font-family:var(--mono);font-size:10px;letter-spacing:.14em;
+  text-transform:uppercase;color:rgba(253,251,245,.55);padding:9px 16px;
+  border-radius:999px;transition:.18s;min-height:34px}
+.toolbar button[aria-pressed="true"]{background:var(--cream-00);color:var(--ink)}
+.toolbar .sep{width:1px;height:20px;background:rgba(253,251,245,.18);margin:0 4px}
+.stage{width:100%;transition:width .35s cubic-bezier(.4,0,.2,1)}
+.site{container-type:inline-size;background:var(--cream-01);width:100%;overflow:hidden}
+body[data-view="mobile"] .stage{width:400px;max-width:100%;padding:14px 0 0}
+body[data-view="mobile"] .site{border-radius:38px;border:9px solid var(--ink);
+  box-shadow:0 30px 70px rgba(23,21,15,.26)}
+body[data-view="mobile"] .harness{background:var(--cream-03)}
+
+/* ===== header ===== */
+.announce{background:var(--ink);color:var(--cream-01);text-align:center;padding:10px 16px;
+  font-family:var(--mono);font-size:10px;letter-spacing:.2em;text-transform:uppercase}
+.announce b{color:#FF6A5E;font-weight:500}
+.hdr{position:sticky;top:0;z-index:300;background:rgba(248,243,233,.9);
+  backdrop-filter:blur(16px) saturate(1.2);border-bottom:1px solid var(--ink-14)}
+.hdr-row{display:flex;align-items:center;gap:20px;padding:0 var(--pad);height:78px}
+.logo{display:flex;align-items:center;gap:11px;margin-right:auto;flex-shrink:0}
+.logo-badge{background:var(--ink);color:var(--cream-00);padding:9px 12px 7px;border-radius:2px;
+  font-family:var(--display);font-size:22px;line-height:1;letter-spacing:.01em;flex-shrink:0}
+.logo-badge i{color:var(--red);font-style:normal}
+.logo-sub{display:flex;flex-direction:column;gap:4px;line-height:1}
+.logo-sub strong{font-family:var(--display);font-size:13px;letter-spacing:.07em;font-weight:400}
+.logo-sub span{font-family:var(--mono);font-size:8px;letter-spacing:.22em;
+  text-transform:uppercase;color:var(--ink-45)}
+
+.nav{display:flex;align-items:stretch}
+.nav a{position:relative;padding:30px 18px 24px;font-family:var(--display);font-size:14px;
+  letter-spacing:.06em;text-transform:uppercase;color:var(--ink-70);transition:color .2s}
+.nav a::before{content:"";position:absolute;top:0;left:50%;width:1px;height:0;
+  background:var(--rail);transition:height .28s cubic-bezier(.4,0,.2,1)}
+.nav a::after{content:"";position:absolute;top:14px;left:50%;transform:translate(-50%,-6px);
+  width:5px;height:5px;border-radius:50%;background:var(--red);opacity:0;
+  transition:.28s cubic-bezier(.4,0,.2,1)}
+.nav a:hover{color:var(--ink)}
+.nav a:hover::before{height:15px}
+.nav a:hover::after{opacity:1;transform:translate(-50%,0)}
+.util{display:flex;align-items:center;gap:6px;flex-shrink:0}
+.util button{width:40px;height:40px;display:grid;place-items:center;border-radius:50%;transition:background .2s}
+.util button:hover{background:var(--ink-07)}
+.bag{position:relative}
+.bag span{position:absolute;top:4px;right:3px;min-width:16px;height:16px;padding:0 4px;
+  background:var(--red);color:#fff;border-radius:999px;font-family:var(--mono);
+  font-size:9px;display:grid;place-items:center}
+.burger{display:none}
+
+/* ===== hero ===== */
+.hero{position:relative;display:grid;grid-template-columns:1.02fr 1fr;align-items:stretch;
+  background:var(--cream-01)}
+.hero-copy{padding:clamp(34px,5.4vw,80px) clamp(20px,4vw,64px);
+  display:flex;flex-direction:column;justify-content:center}
+.hero h1{margin:16px 0 0;font-family:var(--display);font-weight:400;
+  font-size:clamp(56px,9.4cqw,136px);line-height:.84;text-transform:uppercase;letter-spacing:-.004em}
+.hero h1 b{display:block;color:var(--red);font-weight:400}
+.hero p{margin:22px 0 0;font-size:15.5px;line-height:1.62;color:var(--ink-70);max-width:38ch}
+.cta-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:30px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:50px;
+  padding:0 28px;background:var(--ink);color:var(--cream-00);font-family:var(--display);
+  font-size:13px;letter-spacing:.1em;text-transform:uppercase;border-radius:2px;transition:.2s}
+.btn:hover{background:var(--red)}
+.btn-ghost{background:none;color:var(--ink);box-shadow:inset 0 0 0 1.5px var(--ink-14)}
+.btn-ghost:hover{background:var(--ink);color:var(--cream-00);box-shadow:none}
+.hero-figs{display:grid;grid-template-columns:1fr 1fr;gap:0}
+.hero-fig{position:relative;overflow:hidden;background:var(--cream-03);min-height:clamp(320px,46cqw,620px)}
+.hero-fig img{width:100%;height:100%;object-fit:cover;transition:transform .7s cubic-bezier(.4,0,.2,1)}
+.hero-fig:hover img{transform:scale(1.04)}
+.hero-fig figcaption{position:absolute;left:14px;bottom:14px;padding:7px 12px;border-radius:2px;
+  background:rgba(253,251,245,.93);backdrop-filter:blur(6px);
+  font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;text-transform:uppercase}
+.hero-fig:nth-child(2){margin-top:clamp(20px,4cqw,56px)}
+
+/* ===== marquee ===== */
+.marq{background:var(--ink);color:var(--cream-01);overflow:hidden;padding:13px 0;
+  border-top:1px solid var(--ink)}
+.marq-track{display:flex;gap:42px;width:max-content;animation:scroll 32s linear infinite}
+.marq span{font-family:var(--display);font-size:16px;letter-spacing:.09em;
+  text-transform:uppercase;white-space:nowrap;display:flex;align-items:center;gap:42px}
+.marq span::after{content:"";width:6px;height:6px;border-radius:50%;background:var(--red)}
+@keyframes scroll{to{transform:translateX(-50%)}}
+body[data-motion="off"] .marq-track{animation:none}
+
+/* ===== rooms (shirts | hoodies, separate) ===== */
+.rooms{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--ink-14)}
+.room{position:relative;min-height:clamp(300px,36cqw,480px);overflow:hidden;
+  display:flex;align-items:flex-end;background:var(--ink)}
+.room img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+  transition:transform .8s cubic-bezier(.4,0,.2,1);filter:saturate(.92)}
+.room:hover img{transform:scale(1.05)}
+.room::after{content:"";position:absolute;inset:0;
+  background:linear-gradient(to top,rgba(23,21,15,.82) 0%,rgba(23,21,15,.18) 48%,transparent 72%)}
+.room-in{position:relative;z-index:2;padding:clamp(24px,3.4vw,44px);width:100%;color:var(--cream-00)}
+.room-in .eyebrow{color:rgba(253,251,245,.6)}
+.room h2{margin:10px 0 0;font-family:var(--display);font-weight:400;
+  font-size:clamp(40px,6cqw,86px);line-height:.86;text-transform:uppercase}
+.room-meta{display:flex;align-items:center;gap:14px;margin-top:12px;
+  font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;
+  text-transform:uppercase;color:rgba(253,251,245,.74)}
+.room-meta em{font-style:normal;padding:5px 11px;border:1px solid rgba(253,251,245,.34);border-radius:999px}
+
+/* ===== sections ===== */
+.sec{padding:clamp(52px,7vw,110px) var(--pad)}
+.sec-head{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;
+  padding-bottom:22px;margin-bottom:clamp(26px,3vw,42px);border-bottom:1.5px solid var(--ink)}
+.sec-head h2{margin:8px 0 0;font-family:var(--display);font-weight:400;
+  font-size:clamp(34px,5cqw,66px);line-height:.88;text-transform:uppercase}
+.sec-head a{font-family:var(--display);font-size:13px;letter-spacing:.1em;text-transform:uppercase;
+  border-bottom:1.5px solid var(--ink-14);padding-bottom:3px;white-space:nowrap}
+.sec-head a:hover{border-color:var(--red);color:var(--red)}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(12px,1.8cqw,28px)}
+.card-media{position:relative;aspect-ratio:4/5;overflow:hidden;border-radius:2px;background:var(--cream-03)}
+.card-media img{width:100%;height:100%;object-fit:cover;transition:transform .6s cubic-bezier(.4,0,.2,1),opacity .3s}
+.card:hover .card-media img{transform:scale(1.045)}
+.tag{position:absolute;top:12px;left:12px;z-index:2;padding:6px 11px 5px;border-radius:2px;
+  background:var(--ink);color:var(--cream-00);font-family:var(--display);font-size:10.5px;
+  letter-spacing:.1em;text-transform:uppercase}
+.tag.hot{background:var(--red)}
+.quick{position:absolute;left:10px;right:10px;bottom:10px;z-index:2;min-height:46px;
+  border-radius:2px;background:rgba(253,251,245,.95);backdrop-filter:blur(6px);
+  font-family:var(--display);font-size:12.5px;letter-spacing:.1em;text-transform:uppercase;
+  opacity:0;transform:translateY(8px);transition:.25s}
+.card:hover .quick,.card:focus-within .quick{opacity:1;transform:none}
+.quick:hover{background:var(--ink);color:var(--cream-00)}
+.card-body{padding:15px 2px 0}
+.card-title{display:flex;justify-content:space-between;gap:14px;align-items:baseline}
+.card-title h3{margin:0;font-family:var(--display);font-weight:400;font-size:17px;
+  text-transform:uppercase;letter-spacing:.02em}
+.price{font-family:var(--mono);font-size:13.5px;white-space:nowrap}
+.card-sub{margin:4px 0 0;font-size:12.5px;color:var(--ink-45)}
+.styleset{display:flex;gap:6px;margin-top:12px}
+.styleset button{padding:6px 12px 5px;border-radius:2px;font-family:var(--display);font-size:11px;
+  letter-spacing:.08em;text-transform:uppercase;box-shadow:inset 0 0 0 1.5px var(--ink-14);transition:.18s}
+.styleset button[aria-pressed="true"]{background:var(--ink);color:var(--cream-00);box-shadow:none}
+.swatches{display:flex;gap:7px;margin-top:10px}
+.swatches button{width:22px;height:22px;border-radius:50%;position:relative;
+  box-shadow:inset 0 0 0 1px var(--ink-14);transition:.18s}
+.swatches button::after{content:"";position:absolute;inset:-4px;border-radius:50%;
+  border:1.5px solid var(--ink);opacity:0;transition:opacity .18s}
+.swatches button[aria-pressed="true"]::after{opacity:1}
+.swatches button:hover{transform:scale(1.1)}
+
+/* ===== PDP ===== */
+.anatomy{background:var(--cream-00);border-top:1px solid var(--ink-14);border-bottom:1px solid var(--ink-14)}
+.pdp{display:grid;grid-template-columns:1.08fr .92fr;gap:clamp(26px,4vw,68px);align-items:start}
+.pdp-media{display:grid;grid-template-columns:76px 1fr;gap:12px}
+.thumbs{display:flex;flex-direction:column;gap:10px}
+.thumbs button{aspect-ratio:4/5;border-radius:2px;overflow:hidden;background:var(--cream-03);
+  box-shadow:inset 0 0 0 1px var(--ink-14);transition:.18s;padding:0}
+.thumbs button img{width:100%;height:100%;object-fit:cover}
+.thumbs button[aria-pressed="true"]{box-shadow:0 0 0 2px var(--ink)}
+.pdp-stage{aspect-ratio:4/5;border-radius:2px;overflow:hidden;background:var(--cream-03)}
+.pdp-stage img{width:100%;height:100%;object-fit:cover}
+.pdp-info h2{margin:10px 0 0;font-family:var(--display);font-weight:400;
+  font-size:clamp(30px,4cqw,52px);line-height:.9;text-transform:uppercase}
+.pdp-price{margin:16px 0 0;font-family:var(--mono);font-size:19px}
+.pdp-price s{color:var(--ink-45);margin-left:9px;font-size:14px}
+.opt{margin-top:28px}
+.opt-label{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:11px}
+.opt-label strong{font-family:var(--display);font-weight:400;font-size:13px;
+  letter-spacing:.1em;text-transform:uppercase}
+.opt-label span{font-size:12.5px;color:var(--ink-45)}
+.styles{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.styles button{display:flex;align-items:center;gap:12px;padding:10px 14px;border-radius:2px;
+  box-shadow:inset 0 0 0 1.5px var(--ink-14);text-align:left;transition:.18s}
+.styles button[aria-pressed="true"]{box-shadow:inset 0 0 0 2px var(--ink);background:var(--cream-01)}
+.styles img{width:40px;height:50px;object-fit:cover;border-radius:2px;flex-shrink:0}
+.styles b{display:block;font-family:var(--display);font-weight:400;font-size:14px;
+  text-transform:uppercase;letter-spacing:.04em}
+.styles em{font-style:normal;font-family:var(--mono);font-size:11px;color:var(--ink-45)}
+.sizes{display:flex;flex-wrap:wrap;gap:8px}
+.sizes button{min-width:54px;min-height:46px;padding:0 10px;border-radius:2px;
+  box-shadow:inset 0 0 0 1.5px var(--ink-14);font-family:var(--display);font-size:14px;transition:.18s}
+.sizes button[aria-pressed="true"]{background:var(--ink);color:var(--cream-00);box-shadow:none}
+.sizes button[disabled]{color:var(--ink-14);cursor:not-allowed;text-decoration:line-through}
+.sizes button:not([disabled]):hover{box-shadow:inset 0 0 0 2px var(--ink)}
+.pdp-cta{display:flex;gap:10px;margin-top:30px}
+.pdp-cta .btn{flex:1}
+.notes{margin:28px 0 0;padding:0;list-style:none;border-top:1px solid var(--ink-14)}
+.notes li{padding:13px 0;border-bottom:1px solid var(--ink-14);font-size:13px;
+  color:var(--ink-70);display:flex;justify-content:space-between;gap:16px}
+.notes li b{color:var(--ink);font-weight:600}
+
+/* ===== lookbook ===== */
+.look{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--ink-14)}
+.look a{position:relative;aspect-ratio:1;overflow:hidden;background:var(--cream-03)}
+.look img{width:100%;height:100%;object-fit:cover;transition:transform .7s cubic-bezier(.4,0,.2,1)}
+.look a:hover img{transform:scale(1.06)}
+.look span{position:absolute;left:12px;bottom:12px;z-index:2;color:#fff;
+  font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;
+  text-shadow:0 1px 10px rgba(0,0,0,.6)}
+
+/* ===== trust ===== */
+.trust{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--ink-14);
+  border-top:1px solid var(--ink-14);border-bottom:1px solid var(--ink-14)}
+.trust div{background:var(--cream-00);padding:24px 18px;display:flex;align-items:center;
+  justify-content:center;gap:11px;text-align:center}
+.trust strong{font-family:var(--display);font-weight:400;font-size:13px;
+  letter-spacing:.08em;text-transform:uppercase}
+.trust svg{color:var(--red);flex-shrink:0}
+
+/* ===== newsletter / footer ===== */
+.news{padding:clamp(52px,7vw,100px) var(--pad);background:var(--ink);color:var(--cream-01);
+  display:grid;grid-template-columns:1fr 1fr;gap:clamp(26px,4vw,68px);align-items:center}
+.news h2{margin:12px 0 0;font-family:var(--display);font-weight:400;
+  font-size:clamp(34px,5cqw,66px);line-height:.88;text-transform:uppercase}
+.news h2 b{color:var(--red);font-weight:400}
+.news .eyebrow{color:rgba(253,251,245,.45)}
+.news form{display:flex;gap:8px;flex-wrap:wrap}
+.news input{flex:1;min-width:200px;min-height:52px;padding:0 20px;border-radius:2px;
+  background:rgba(253,251,245,.07);border:1px solid rgba(253,251,245,.2);
+  color:var(--cream-00);font:inherit;font-size:14px;outline:none}
+.news input::placeholder{color:rgba(253,251,245,.4)}
+.news input:focus{border-color:var(--cream-00)}
+.news .btn{background:var(--cream-00);color:var(--ink)}
+.news .btn:hover{background:var(--red);color:#fff}
+.news small{display:block;margin-top:13px;font-size:11.5px;color:rgba(253,251,245,.4)}
+.foot{padding:clamp(34px,4vw,60px) var(--pad);background:var(--ink);color:rgba(253,251,245,.6);
+  border-top:1px solid rgba(253,251,245,.14);display:flex;flex-wrap:wrap;gap:24px;
+  justify-content:space-between;align-items:center;font-size:12px}
+.foot nav{display:flex;flex-wrap:wrap;gap:20px}
+.foot a:hover{color:var(--cream-00)}
+
+/* ===== container queries ===== */
+@container (max-width:980px){
+  .hero{grid-template-columns:1fr}
+  .hero-fig{min-height:clamp(260px,52cqw,360px)}
+  .hero-fig:nth-child(2){margin-top:0}
+  .rooms{grid-template-columns:1fr}
+  .grid{grid-template-columns:repeat(2,1fr)}
+  .look{grid-template-columns:repeat(2,1fr)}
+  .pdp{grid-template-columns:1fr}
+  .news{grid-template-columns:1fr}
+  .trust{grid-template-columns:1fr 1fr}
+  .nav{display:none}
+  .burger{display:grid}
+  .hdr-row{height:66px}
+}
+@container (max-width:560px){
+  .hero h1{font-size:clamp(50px,15cqw,76px)}
+  .logo-sub{display:none}
+  .util button:nth-child(1){display:none}
+  .pdp-media{grid-template-columns:1fr}
+  .thumbs{flex-direction:row}
+  .thumbs button{width:66px}
+  .sec-head{flex-direction:column;align-items:flex-start}
+  .styles{grid-template-columns:1fr}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body data-view="desktop" data-motion="on">
+
+<div class="harness"><div class="stage"><div class="site">
+
+  <div class="announce">Free shipping over $50 &nbsp;·&nbsp; <b>Custom orders welcome</b> &nbsp;·&nbsp; Ships from Texas</div>
+
+  <!-- ===== HEADER — logo LEFT ===== -->
+  <header class="hdr">
+    <div class="hdr-row">
+      <a class="logo" href="#">
+        <span class="logo-badge">PULS<i>3</i></span>
+        <span class="logo-sub"><strong>Outfitters</strong><span>Est. Forever</span></span>
+      </a>
+      <nav class="nav">
+        <a href="#shirts">T-Shirts</a>
+        <a href="#hoodies">Hoodies</a>
+        <a href="#listing">Custom</a>
+        <a href="#look">Lookbook</a>
+      </nav>
+      <div class="util">
+        <button aria-label="Search"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="11" cy="11" r="7"/><path d="M16.5 16.5 21 21"/></svg></button>
+        <button aria-label="Account"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="8" r="4"/><path d="M4.5 20a7.5 7.5 0 0 1 15 0"/></svg></button>
+        <button class="bag" aria-label="Bag, 2 items"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M6 8h12l1 12H5Z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg><span>2</span></button>
+        <button class="burger" aria-label="Menu"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 8h16M4 16h16"/></svg></button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===== HERO ===== -->
+  <section class="hero">
+    <div class="hero-copy">
+      <p class="eyebrow">Premium Streetwear · Richardson, TX</p>
+      <h1>Wear<br>Your <b>Vibe</b></h1>
+      <p>Original graphics on 100% cotton. Every design in tee and hoodie — one listing, every colour, no hunting.</p>
+      <div class="cta-row">
+        <a class="btn" href="#shirts">Shop T-Shirts</a>
+        <a class="btn btn-ghost" href="#hoodies">Shop Hoodies</a>
+      </div>
+    </div>
+    <div class="hero-figs">
+      <figure class="hero-fig" style="margin:0">
+        <img src="https://images.pexels.com/photos/29996214/pexels-photo-29996214.jpeg?auto=compress&cs=tinysrgb&w=900" alt="Black hoodie" loading="eager">
+        <figcaption>Hoodies · from $22.69</figcaption>
+      </figure>
+      <figure class="hero-fig" style="margin-top:clamp(20px,4cqw,56px)">
+        <img src="https://images.pexels.com/photos/10886188/pexels-photo-10886188.jpeg?auto=compress&cs=tinysrgb&w=900" alt="White t-shirt" loading="eager">
+        <figcaption>Tees · from $15.69</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- ===== MARQUEE ===== -->
+  <div class="marq"><div class="marq-track" id="marq"></div></div>
+
+  <!-- ===== ROOMS ===== -->
+  <div class="rooms">
+    <a class="room" href="#shirts">
+      <img src="https://images.pexels.com/photos/18186105/pexels-photo-18186105.jpeg?auto=compress&cs=tinysrgb&w=1100" alt="T-shirts" loading="lazy">
+      <div class="room-in">
+        <p class="eyebrow">Collection 01</p>
+        <h2>T-Shirts</h2>
+        <div class="room-meta"><em>6 designs</em><span>From $15.69 · 100% cotton</span></div>
+      </div>
+    </a>
+    <a class="room" href="#hoodies">
+      <img src="https://images.pexels.com/photos/6311506/pexels-photo-6311506.jpeg?auto=compress&cs=tinysrgb&w=1100" alt="Hoodies" loading="lazy">
+      <div class="room-in">
+        <p class="eyebrow">Collection 02</p>
+        <h2>Hoodies</h2>
+        <div class="room-meta"><em>5 designs</em><span>From $22.69 · Fleece lined</span></div>
+      </div>
+    </a>
+  </div>
+
+  <!-- ===== SHIRTS ===== -->
+  <section class="sec" id="shirts">
+    <div class="sec-head">
+      <div><p class="eyebrow">Collection 01</p><h2>T-Shirts</h2></div>
+      <a href="#">View all →</a>
+    </div>
+    <div class="grid" data-grid="tee"></div>
+  </section>
+
+  <!-- ===== PDP ===== -->
+  <section class="sec anatomy" id="listing">
+    <div class="sec-head">
+      <div><p class="eyebrow">Listing structure</p><h2>One Design.<br>Every Option.</h2></div>
+      <span class="eyebrow">1 listing · 2 styles · 3 colours · 5 sizes</span>
+    </div>
+    <div class="pdp">
+      <div class="pdp-media">
+        <div class="thumbs" id="pdpThumbs"></div>
+        <div class="pdp-stage" id="pdpStage"><img id="pdpImg" src="" alt=""></div>
+      </div>
+      <div class="pdp-info">
+        <p class="eyebrow">Puls3 Outfitters</p>
+        <h2 id="pdpTitle">Lone Star Graphic Tee</h2>
+        <p class="pdp-price"><span id="pdpPrice">$15.69</span> <s id="pdpWas">$21.97</s></p>
+
+        <div class="opt">
+          <div class="opt-label"><strong>Style</strong><span id="pdpStyleName">T-Shirt</span></div>
+          <div class="styles" id="pdpStyles">
+            <button data-style="tee" aria-pressed="true">
+              <img src="https://images.pexels.com/photos/18186106/pexels-photo-18186106.jpeg?auto=compress&cs=tinysrgb&w=200" alt="">
+              <span><b>T-Shirt</b><em>$15.69</em></span>
+            </button>
+            <button data-style="hoodie" aria-pressed="false">
+              <img src="https://images.pexels.com/photos/8217544/pexels-photo-8217544.jpeg?auto=compress&cs=tinysrgb&w=200" alt="">
+              <span><b>Hoodie</b><em>$22.69</em></span>
+            </button>
+          </div>
+        </div>
+
+        <div class="opt">
+          <div class="opt-label"><strong>Colour</strong><span id="pdpColour">White</span></div>
+          <div class="swatches" id="pdpSwatches"></div>
+        </div>
+
+        <div class="opt">
+          <div class="opt-label"><strong>Size</strong><span>Size guide</span></div>
+          <div class="sizes" id="pdpSizes">
+            <button aria-pressed="false">S</button>
+            <button aria-pressed="true">M</button>
+            <button aria-pressed="false">L</button>
+            <button aria-pressed="false">XL</button>
+            <button disabled>2XL</button>
+          </div>
+        </div>
+
+        <div class="pdp-cta">
+          <button class="btn">Add to bag</button>
+          <button class="btn btn-ghost">Save</button>
+        </div>
+
+        <ul class="notes">
+          <li><span>Fabric</span><b>100% cotton</b></li>
+          <li><span>Print</span><b>Graphic print, front &amp; back</b></li>
+          <li><span>Ships from</span><b>Richardson, Texas</b></li>
+          <li><span>Custom orders</span><b>Send us your design</b></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== HOODIES ===== -->
+  <section class="sec" id="hoodies">
+    <div class="sec-head">
+      <div><p class="eyebrow">Collection 02</p><h2>Hoodies</h2></div>
+      <a href="#">View all →</a>
+    </div>
+    <div class="grid" data-grid="hoodie"></div>
+  </section>
+
+  <!-- ===== LOOKBOOK ===== -->
+  <section id="look">
+    <div class="look">
+      <a href="#"><img src="https://images.pexels.com/photos/14875600/pexels-photo-14875600.jpeg?auto=compress&cs=tinysrgb&w=700" alt="" loading="lazy"><span>Grey Fleece</span></a>
+      <a href="#"><img src="https://images.pexels.com/photos/7479827/pexels-photo-7479827.jpeg?auto=compress&cs=tinysrgb&w=700" alt="" loading="lazy">
+        <span>Two-Tone Drop</span></a>
+      <a href="#"><img src="https://images.pexels.com/photos/16529914/pexels-photo-16529914.jpeg?auto=compress&cs=tinysrgb&w=700" alt="" loading="lazy"><span>Back Print</span></a>
+      <a href="#"><img src="https://images.pexels.com/photos/14059683/pexels-photo-14059683.jpeg?auto=compress&cs=tinysrgb&w=700" alt="" loading="lazy"><span>Street Fit</span></a>
+    </div>
+  </section>
+
+  <!-- ===== TRUST ===== -->
+  <div class="trust">
+    <div><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="m12 3 9 6-9 12L3 9Z"/><path d="M3 9h18"/></svg><strong>Premium Quality</strong></div>
+    <div><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M8 4 4 6l1 5h2v9h10v-9h2l1-5-4-2a4 4 0 0 1-8 0Z"/></svg><strong>Trendy Designs</strong></div>
+    <div><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M2 7h11v9H2Z"/><path d="M13 10h4l3 3v3h-7Z"/><circle cx="6" cy="18" r="2"/><circle cx="17" cy="18" r="2"/></svg><strong>Fast Shipping</strong></div>
+    <div><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="m3 11 4-4 5 3 5-3 4 4-4 5-5-2-5 2Z"/></svg><strong>Custom Orders</strong></div>
+  </div>
+
+  <!-- ===== NEWSLETTER ===== -->
+  <section class="news">
+    <div><p class="eyebrow">The list</p><h2>Drops Go Out<br><b>Before</b> They Go Up</h2></div>
+    <div>
+      <form id="newsForm">
+        <input type="email" placeholder="you@email.com" required aria-label="Email">
+        <button class="btn" type="submit">Join</button>
+      </form>
+      <small>Restocks, new designs, custom order slots. No noise.</small>
+    </div>
+  </section>
+
+  <footer class="foot">
+    <span>© 2026 Puls3 Outfitters · Richardson, TX</span>
+    <nav><a href="#">Shipping</a><a href="#">Returns</a><a href="#">Size guide</a><a href="#">Custom orders</a><a href="#">Contact</a></nav>
+  </footer>
+
+</div></div></div>
+
+<div class="toolbar" role="group" aria-label="Preview controls">
+  <button data-view-btn="desktop" aria-pressed="true">Desktop</button>
+  <button data-view-btn="mobile" aria-pressed="false">Phone</button>
+  <span class="sep"></span>
+  <button data-motion-btn aria-pressed="true">Motion</button>
+</div>
+
+<script>
+/* ============================================================
+   Photo library — placeholders the client swaps for their own
+   shots in Shopify. Keyed by [style][colour].
+   ============================================================ */
+const P = id => `https://images.pexels.com/photos/${id}/pexels-photo-${id}.jpeg?auto=compress&cs=tinysrgb&w=900`;
+
+const PHOTO = {
+  tee:{
+    white: P(10886188),
+    black: P(16941610),
+    grey:  P(9558752)
+  },
+  hoodie:{
+    white: P(8217544),
+    black: P(29996214),
+    grey:  P(14875600)
+  }
+};
+/* alternate shots so different designs don't all look identical */
+const ALT = {
+  tee:[P(10886188),P(16941610),P(18186106),P(14059683),P(18186105),P(9558752),P(13134838)],
+  hoodie:[P(29996214),P(6311506),P(14875600),P(16529914),P(7479824),P(907863),P(6311272)]
+};
+
+const COLOURS={
+  white:{name:'White', hex:'#F2EFE7'},
+  black:{name:'Black', hex:'#2A2824'},
+  grey :{name:'Heather Grey', hex:'#AFA99C'}
+};
+const PRICE={tee:15.69,hoodie:22.69};
+const LABEL={tee:'T-Shirt',hoodie:'Hoodie'};
+
+/* 11 Etsy listings consolidated into 7 products */
+const DESIGNS=[
+  {name:'Lone Star',    styles:['tee','hoodie'], colours:['white','black','grey'], tag:'Bestseller', i:0},
+  {name:'Built Different', styles:['tee','hoodie'], colours:['black','white','grey'], tee:15.77, i:1},
+  {name:'Grind',        styles:['tee','hoodie'], colours:['black','white','grey'], i:2},
+  {name:'Find Your Flow', styles:['tee','hoodie'], colours:['white','black','grey'], i:3},
+  {name:'Homestead',    styles:['tee'],          colours:['white','grey','black'], i:4},
+  {name:'Halloween',    styles:['tee','hoodie'], colours:['black','white','grey'], tag:'Seasonal', i:5},
+  {name:'Custom Print', styles:['tee'],          colours:['white','black','grey'], tee:15.79, tag:'Your design', hot:true, i:6}
+];
+
+const priceOf=(d,s)=>(d[s]??PRICE[s]).toFixed(2);
+const shotFor=(d,style,colour)=> (d.i>0 && ALT[style][d.i]) ? ALT[style][d.i] : PHOTO[style][colour];
+
+/* ---------- marquee ---------- */
+const mWords=['Premium Quality','Trendy Designs','Fast Shipping','Custom Orders','100% Cotton','Est. Forever'];
+document.getElementById('marq').innerHTML =
+  `<span>${mWords.join('</span><span>')}</span>`.repeat(2);
+
+/* ---------- product cards ---------- */
+function card(d,kind){
+  const c0=d.colours[0];
+  const el=document.createElement('article');
+  el.className='card';
+  el.innerHTML=`
+    <div class="card-media">
+      ${d.tag?`<span class="tag${d.hot?' hot':''}">${d.tag}</span>`:''}
+      <img src="${shotFor(d,kind,c0)}" alt="${d.name} ${LABEL[kind]}" loading="lazy">
+      <button class="quick">Quick add</button>
+    </div>
+    <div class="card-body">
+      <div class="card-title"><h3>${d.name}</h3><span class="price">$${priceOf(d,kind)}</span></div>
+      <p class="card-sub">${COLOURS[c0].name} · 100% cotton</p>
+      ${d.styles.length>1?`<div class="styleset">${d.styles.map(s=>
+        `<button data-s="${s}" aria-pressed="${s===kind}">${LABEL[s]}</button>`).join('')}</div>`:''}
+      <div class="swatches">${d.colours.map((c,i)=>
+        `<button data-c="${c}" aria-pressed="${i===0}" title="${COLOURS[c].name}"
+          aria-label="${COLOURS[c].name}" style="background:${COLOURS[c].hex}"></button>`).join('')}</div>
+    </div>`;
+
+  const img=el.querySelector('.card-media img');
+  let cur={style:kind,colour:c0};
+  const render=()=>{
+    img.style.opacity='0';
+    const next=PHOTO[cur.style][cur.colour];
+    const pre=new Image();
+    pre.onload=()=>{img.src=next;img.style.opacity='1'};
+    pre.onerror=()=>{img.style.opacity='1'};
+    pre.src=next;
+    el.querySelector('.price').textContent='$'+priceOf(d,cur.style);
+    el.querySelector('.card-sub').textContent=`${COLOURS[cur.colour].name} · 100% cotton`;
+  };
+  el.querySelectorAll('.swatches button').forEach(b=>b.onclick=()=>{
+    el.querySelectorAll('.swatches button').forEach(x=>x.setAttribute('aria-pressed','false'));
+    b.setAttribute('aria-pressed','true'); cur.colour=b.dataset.c; render();
+  });
+  el.querySelectorAll('.styleset button').forEach(b=>b.onclick=()=>{
+    el.querySelectorAll('.styleset button').forEach(x=>x.setAttribute('aria-pressed','false'));
+    b.setAttribute('aria-pressed','true'); cur.style=b.dataset.s; render();
+  });
+  return el;
+}
+document.querySelectorAll('.grid').forEach(g=>{
+  const kind=g.dataset.grid;
+  DESIGNS.filter(d=>d.styles.includes(kind)).slice(0,4).forEach(d=>g.appendChild(card(d,kind)));
+});
+
+/* ---------- PDP ---------- */
+const design=DESIGNS[0];
+const pImg=document.getElementById('pdpImg'), swWrap=document.getElementById('pdpSwatches'),
+      thWrap=document.getElementById('pdpThumbs');
+let pdp={style:'tee',colour:'white'};
+
+function renderPdp(){
+  const src=PHOTO[pdp.style][pdp.colour];
+  pImg.src=src; pImg.alt=`${design.name} ${LABEL[pdp.style]} in ${COLOURS[pdp.colour].name}`;
+  document.getElementById('pdpColour').textContent=COLOURS[pdp.colour].name;
+  document.getElementById('pdpStyleName').textContent=LABEL[pdp.style];
+  document.getElementById('pdpTitle').textContent=`${design.name} Graphic ${LABEL[pdp.style]}`;
+  const p=priceOf(design,pdp.style);
+  document.getElementById('pdpPrice').textContent='$'+p;
+  document.getElementById('pdpWas').textContent='$'+(p*1.4).toFixed(2);
+  swWrap.querySelectorAll('button').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.c===pdp.colour)));
+  thWrap.querySelectorAll('button').forEach(b=>{
+    b.setAttribute('aria-pressed',String(b.dataset.c===pdp.colour));
+    b.querySelector('img').src=PHOTO[pdp.style][b.dataset.c];
+  });
+  document.querySelectorAll('#pdpStyles button').forEach(b=>
+    b.setAttribute('aria-pressed',String(b.dataset.style===pdp.style)));
+}
+design.colours.forEach(key=>{
+  const c=COLOURS[key];
+  const s=document.createElement('button');
+  s.dataset.c=key; s.style.background=c.hex; s.title=c.name; s.setAttribute('aria-label',c.name);
+  s.onclick=()=>{pdp.colour=key;renderPdp()}; swWrap.appendChild(s);
+  const t=document.createElement('button');
+  t.dataset.c=key; t.setAttribute('aria-label',c.name+' view');
+  t.innerHTML=`<img src="${PHOTO.tee[key]}" alt="">`;
+  t.onclick=()=>{pdp.colour=key;renderPdp()}; thWrap.appendChild(t);
+});
+document.querySelectorAll('#pdpStyles button').forEach(b=>
+  b.onclick=()=>{pdp.style=b.dataset.style;renderPdp()});
+document.getElementById('pdpSizes').addEventListener('click',e=>{
+  const b=e.target.closest('button'); if(!b||b.disabled)return;
+  document.querySelectorAll('#pdpSizes button').forEach(x=>x.setAttribute('aria-pressed','false'));
+  b.setAttribute('aria-pressed','true');
+});
+renderPdp();
+
+/* ---------- toolbar ---------- */
+const KEY='puls3-preview';
+function applyView(v){
+  document.body.dataset.view=v;
+  document.querySelectorAll('[data-view-btn]').forEach(b=>
+    b.setAttribute('aria-pressed',String(b.dataset.viewBtn===v)));
+  localStorage.setItem(KEY,v);
+}
+document.querySelectorAll('[data-view-btn]').forEach(b=>b.onclick=()=>applyView(b.dataset.viewBtn));
+applyView(localStorage.getItem(KEY)||'desktop');
+const mBtn=document.querySelector('[data-motion-btn]');
+mBtn.onclick=()=>{const on=document.body.dataset.motion==='on';
+  document.body.dataset.motion=on?'off':'on'; mBtn.setAttribute('aria-pressed',String(!on))};
+document.getElementById('newsForm').addEventListener('submit',e=>{
+  e.preventDefault();
+  e.target.innerHTML='<p style="margin:0;font-size:14px;color:rgba(253,251,245,.8)">On the list. Watch your inbox.</p>';
+});
+</script>
+</body>
+</html>
